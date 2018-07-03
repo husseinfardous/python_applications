@@ -40,13 +40,25 @@ if __name__ == "__main__":
     data = json.load(file)
     file.close()
 
-    word = input("Please enter the word that you seek the definition of: ")
+    quit = False
+    while (not quit):
 
-    result = define(data, word)
-    if type(result) == list:
-        count = 1
-        for definition in result:
-            print("Definition %s:" % (count), definition)
-            count += 1
-    else:
-        print("Definition:", result)
+        word = input("Please enter the word that you seek the definition of. Enter 'q' to quit: ")
+
+        if word == 'q':
+            quit = True
+
+        if quit == False:
+
+            result = define(data, word)
+
+            if type(result) == list:
+                count = 1
+                for definition in result:
+                    print("Definition %s:" % (count), definition)
+                    count += 1
+                print("\n")
+
+            else:
+                print("Definition:", result)
+                print("\n")
