@@ -48,7 +48,7 @@ def block(os, redirect_site, websites, start_time, end_time):
             if dt(dt.now().year, dt.now().month, dt.now().day, int(start_time[0]), int(start_time[1])) < dt.now() < dt(dt.now().year, dt.now().month, dt.now().day, int(end_time[0]), int(end_time[1])):
 
                 print("Work Hours...")
-                with open("hosts", "r+") as file:
+                with open(hostsFilePath, "r+") as file:
                     content = file.read()
                     for website in websites_block_list:
                         if website not in content:
@@ -57,7 +57,7 @@ def block(os, redirect_site, websites, start_time, end_time):
             else:
 
                 print("Fun Hours...")
-                with open("hosts", "r+") as file:
+                with open(hostsFilePath, "r+") as file:
                     content = file.readlines()
                     file.seek(0)
                     for line in content:
