@@ -36,7 +36,7 @@ def define(dictionary, word):
 
 if __name__ == "__main__":
 
-    file = open("data.json", "rb")
+    file = open("data.json", "r")
     data = json.load(file)
     file.close()
 
