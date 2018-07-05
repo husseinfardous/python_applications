@@ -55,7 +55,15 @@ def block(os, redirect_site, websites, start_time, end_time):
                             file.write(redirect_ip + " " + website + "\n")
 
             else:
+
                 print("Fun Hours...")
+                with open("hosts", "r+") as file:
+                    content = file.readlines()
+                    file.seek(0)
+                    for line in content:
+                        if not any(website in line for website in websites_block_list):
+                            file.write(line)
+                    file.truncate()
 
             time.sleep(5)
             sys.stdout.flush()
