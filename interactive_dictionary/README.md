@@ -14,8 +14,8 @@ Python 3
 
 # Application Usage
 
-python (path-to-python_applications)/interactive_dictionary/app.py
+Run `python (path-to-python_applications)/interactive_dictionary/app.py`
 
-# Application Improvements
+# One Application Improvement
 
 This application can be improved by turning it into a web application. A Graphical User Interface (GUI) can be created for the users to enter words and then the server processes the request, calls the database (where the JSON data is stored), and returns the response to the GUI.
