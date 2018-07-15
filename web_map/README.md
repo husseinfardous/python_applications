@@ -14,7 +14,7 @@ This application produces an html file that displays a map with three layers: th
 
 # Application Usage
 
-1. Run `python (path-to-python_applications/web_map/app.py`
+1. Run `python <path-to-python_applications>/web_map/app.py`
 2. Open `map.html` in a Web Browser
 
 # Some Application Improvements

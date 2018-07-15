@@ -14,7 +14,7 @@ Python 3
 
 # Application Usage
 
-Run `python (path-to-python_applications)/interactive_dictionary/app.py`
+Run `python <path-to-python_applications>/interactive_dictionary/app.py`
 
 # One Application Improvement
 
