@@ -20,8 +20,79 @@ import backend
 
 
 
+# Retrieve Selected Row in the Listbox
+# Helper Function for update() and delete() Functions Below
+def get_selected_row(event):
+
+    try:
+
+        global selected_row
+        index = book_list.curselection()[0]
+        selected_row = book_list.get(index)
+
+        # Fill Entries with Data of Selected Row
+
+        title_entry.delete(0, END)
+        title_entry.insert(END, selected_row[1])
+
+        author_entry.delete(0, END)
+        author_entry.insert(END, selected_row[2])
+
+        year_entry.delete(0, END)
+        year_entry.insert(END, selected_row[3])
+
+        isbn_entry.delete(0, END)
+        isbn_entry.insert(END, selected_row[4])
+
+    except IndexError:
+        pass
+
+
+
+# Button Commands that Call Corresponding Backend Functions
+
+# View All Entries Button -> backend.view()
+def view_command():
+
+    # Prevent Spam from Repetitive Button Clicks
+    book_list.delete(0, END)
+
+    # Display All Entries in the Listbox
+    for row in backend.view():
+        book_list.insert(END, row)
+
+# Search for Entry Button -> backend.search()
+def search_command():
+
+    # Delete Entries from Previous Button Clicks
+    book_list.delete(0, END)
+
+    # Display Book(s) that match the Query in the Listbox
+    for row in backend.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
+        book_list.insert(END, row)
+
+# Add Entry Button -> backend.add()
+def add_command():
+
+    backend.add(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+
+    # Delete Entries from Previous Button Clicks and Display Added Entry
+    book_list.delete(0, END)
+    book_list.insert(END, (title_text.get(), author_text.get(), year_text.get(), isbn_text.get()))
+
+# Update Entry Button -> backend.update()
+def update_command():
+    backend.update(selected_row[0], title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+
+# Delete Entry Button -> backend.delete()
+def delete_command():
+    backend.delete(selected_row[0])
+
+
+
 # Create Frontend Interface Window
 window = Tk()
+window.wm_title("Bookstore")
 
 
 
@@ -83,32 +154,35 @@ scrollbar.grid(row = 2, column = 2, rowspan = 6)
 book_list.configure(yscrollcommand = scrollbar.set)
 scrollbar.configure(command = book_list.yview)
 
+# Bind get_selected_row() to Widget Event (Select a Row in Listbox)
+book_list.bind("<<ListboxSelect>>", get_selected_row)
+
 
 
 # Create Frontend Interface Buttons
 
 # View All Entries Button
-view = Button(window, text = "View All Entries", width = 12)
+view = Button(window, text = "View All Entries", width = 12, command = view_command)
 view.grid(row = 2, column = 3)
 
 # Search for Entry Button
-search = Button(window, text = "Search for Entry", width = 12)
+search = Button(window, text = "Search for Entry", width = 12, command = search_command)
 search.grid(row = 3, column = 3)
 
 # Add Entry Button
-add = Button(window, text = "Add Entry", width = 12)
+add = Button(window, text = "Add Entry", width = 12, command = add_command)
 add.grid(row = 4, column = 3)
 
 # Update Entry Button
-update = Button(window, text = "Update Entry", width = 12)
+update = Button(window, text = "Update Entry", width = 12, command = update_command)
 update.grid(row = 5, column = 3)
 
 # Delete Entry Button
-delete = Button(window, text = "Delete Entry", width = 12)
+delete = Button(window, text = "Delete Entry", width = 12, command = delete_command)
 delete.grid(row = 6, column = 3)
 
 # Close Button
-close = Button(window, text = "Close", width = 12)
+close = Button(window, text = "Close", width = 12, command = window.destroy)
 close.grid(row = 7, column = 3)
 
 
