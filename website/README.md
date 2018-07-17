@@ -11,7 +11,7 @@ The html and css files that come with this application are just placeholders.
 # Application Requirements
 
 1. Python 3
-2. Flask Library
+2. Flask
 
 # Application Usage
 

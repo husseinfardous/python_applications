@@ -9,8 +9,8 @@ This application produces an html file that displays a map with three layers: th
 # Application Requirements
 
 1. Python 3
-2. Pandas Library
-3. Folium Library
+2. Pandas
+3. Folium
 
 # Application Usage
 
