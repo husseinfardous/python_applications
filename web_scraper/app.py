@@ -16,6 +16,7 @@ https://pythonhow.com/real-estate/rock-springs-wy/LCWYROCKSPRINGS/
 
 # Import Modules
 import requests
+import pandas
 from bs4 import BeautifulSoup
 
 
@@ -32,48 +33,64 @@ first_page_soup = BeautifulSoup(first_page, "html.parser")
 # Each Real Estate Property belongs to a "div" Tag with Class "propertyRow"
 all_properties = first_page_soup.find_all("div", {"class": "propertyRow"})
 
+# List of Property Dictionaries
+# Each Dictionary Contains a Property's Data as Key, Value Pairs
+property_dictionary_list = []
+
 # Extract Data for Each Real Estate Property
 for single_property in all_properties:
 
-    # Extract the Price
-    price = single_property.find("h4", {"class": "propPrice"}).text.replace("\n", "").replace(" ", "")
-    print(price)
+    # Store Property's Data as Key, Value Pairs
+    property_dictionary = {}
 
     # Extract the Address
-    address_first_half = single_property.find_all("span", {"class": "propAddressCollapse"})[0].text
-    print(address_first_half)
-    address_second_half = single_property.find_all("span", {"class": "propAddressCollapse"})[1].text
-    print(address_second_half)
+    address = single_property.find_all("span", {"class": "propAddressCollapse"})[0].text
+    property_dictionary["Address"] = address
 
-    # Extract the Number of Beds if it Exists
-    beds = single_property.find("span", {"class": "infoBed"})
-    if beds != None:
-        beds = beds.find("b").text
-    print(beds)
+    # Extract the Locality
+    locality = single_property.find_all("span", {"class": "propAddressCollapse"})[1].text
+    property_dictionary["Locality"] = locality
+
+    # Extract the Price
+    price = single_property.find("h4", {"class": "propPrice"}).text.replace("\n", "").replace(" ", "")
+    property_dictionary["Price"] = price
 
     # Extract the Area in Square Feet if it Exists
     area = single_property.find("span", {"class": "infoSqFt"})
     if area != None:
         area = area.find("b").text
-    print(area)
+    property_dictionary["Area"] = area
+    
+    # Extract the Number of Beds if it Exists
+    beds = single_property.find("span", {"class": "infoBed"})
+    if beds != None:
+        beds = beds.find("b").text
+    property_dictionary["Beds"] = beds
 
     # Extract the Number of Full Baths if it Exists
     full_baths = single_property.find("span", {"class": "infoValueFullBath"})
     if full_baths != None:
         full_baths = full_baths.find("b").text
-    print(full_baths)
+    property_dictionary["Full Baths"] = full_baths
 
     # Extract the Number of Half Baths if it Exists
     half_baths = single_property.find("span", {"class": "infoValueHalfBath"})
     if half_baths != None:
         half_baths = half_baths.find("b").text
-    print(half_baths)
+    property_dictionary["Half Baths"] = half_baths
 
     # Extract the Lot Size if it Exists
     # The Lot Size is tricky because there are multiple "span" Tags with Class "featureGroup" that contain features other than Lot Size
     for column_group in single_property.find_all("div", {"class": "columnGroup"}):
         for feature_group, feature_name in zip(column_group.find_all("span", {"class": "featureGroup"}), column_group.find_all("span", {"class": "featureName"})):
             if "Lot Size" in feature_group.text:
-                print(feature_name.text)
+                property_dictionary["Lot Size"] = feature_name.text
 
-    print("")
+    # Add Dictionary to List of Property Dictionaries
+    property_dictionary_list.append(property_dictionary)
+
+# Create DataFrame object out of List of Property Dictionaries
+data_frame = pandas.DataFrame(property_dictionary_list)
+
+# Add Extracted Real Estate Property Data to a CSV File
+data_frame.to_csv("real_estate_property_data.csv")
