@@ -1,6 +1,6 @@
 # Financial Graph Application
 
-# Creates an Interactive Candlestick Chart of Stock Market Data
+# Creates an Interactive Candlestick Chart of Google Stock Market Data
 
 
 
@@ -40,9 +40,11 @@ def trend(opening, closing):
 
 
 
+# Configure DataFrame object with Google Stock Market Data
+
 # Retrieve Google Stock Market Data
 yf.pdr_override()
-data_frame = pdr.get_data_yahoo(tickers = "GOOG", start = dt.datetime(2016, 3, 1), end = dt.datetime(2016, 3, 10))
+data_frame = pdr.get_data_yahoo(tickers = "GOOG", start = dt.datetime(2018, 3, 1), end = dt.datetime(2018, 7, 1))
 
 # Add Column in DataFrame object that Describes the Trend of the Stock Market Price for the Day
 data_frame["Trend"] = [trend(opening, closing) for opening, closing in zip(data_frame.Open, data_frame.Close)]
@@ -55,11 +57,18 @@ data_frame["Height"] = abs(data_frame.Open - data_frame.Close)
 
 
 
-# Create and Configure Interactive Candlestick Chart
-
 # Create Interactive Candlestick Chart
-chart = figure(x_axis_type = "datetime", height = 300, width = 1000)
-chart.title.text = "Stock Market Candlestick Chart"
+chart = figure(x_axis_type = "datetime", height = 300, width = 1000, sizing_mode = "scale_both")
+chart.title.text = "Google Stock Market Candlestick Chart"
+
+
+
+# Stylize Interactive Candlestick Chart
+chart.title.align = "center"
+chart.grid.grid_line_alpha = 0.5
+chart.segment(data_frame.index, data_frame.High, data_frame.index, data_frame.Low, color = "black")
+
+
 
 # Plot Bokeh Rectangles of Days in which Stock Opening Price > Stock Closing Price
 
@@ -77,7 +86,9 @@ hours = 12
 width = hours * 60 * 60 * 1000
 
 # Plot
-chart.rect(x = x_axis, y = y_axis, width = width, height = height, fill_color = "red", line_color = "black")
+chart.rect(x = x_axis, y = y_axis, width = width, height = height, fill_color = "#87CEEB", line_color = "black")
+
+
 
 # Plot Bokeh Rectangles of Days in which Stock Opening Price < Stock Closing Price
 
@@ -95,7 +106,7 @@ hours = 12
 width = hours * 60 * 60 * 1000
 
 # Plot
-chart.rect(x = x_axis, y = y_axis, width = width, height = height, fill_color = "orange", line_color = "black")
+chart.rect(x = x_axis, y = y_axis, width = width, height = height, fill_color = "#7CFC00", line_color = "black")
 
 
 
