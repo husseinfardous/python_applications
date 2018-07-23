@@ -47,6 +47,16 @@ html, body {
   margin: 3px;
 }
 
+.container p {
+    margin: 100px;
+}
+
+.message {
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    color: #ff0000;
+}
+
 .success-message {
   margin: 100px;
 }

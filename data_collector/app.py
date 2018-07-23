@@ -43,13 +43,24 @@ def index():
     return render_template("index.html")
 
 # Capture POST Data (Email Address and Age)
-# Display Success Webpage
+# Store POST Data in Database "data_collector" if Email Address is Unique
+# Display Success Webpage if Email Address is Unique
+# Display User Submission Webpage again if Email Address is not Unique
 @app.route("/success", methods = ["POST"])
 def success():
+
     if request.method == "POST":
+
         email = request.form["email"]
         age = request.form["age"]
-        return render_template("success.html")
+
+        if db.session.query(Data).filter(Data.email == email).count() == 0:
+            data = Data(email, age)
+            db.session.add(data)
+            db.session.commit()
+            return render_template("success.html")
+
+    return render_template("index.html", text = "Sorry, that Email Address was Used Already!")
 
 
 
