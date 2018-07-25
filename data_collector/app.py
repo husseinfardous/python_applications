@@ -5,6 +5,8 @@
 # Import Modules
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from send_email import send_email
+from sqlalchemy.sql import func
 
 
 
@@ -44,6 +46,7 @@ def index():
 
 # Capture POST Data (Email Address and Age)
 # Store POST Data in Database "data_collector" if Email Address is Unique
+# Send Population Statistics on Age to User
 # Display Success Webpage if Email Address is Unique
 # Display User Submission Webpage again if Email Address is not Unique
 @app.route("/success", methods = ["POST"])
@@ -55,9 +58,15 @@ def success():
         age = request.form["age"]
 
         if db.session.query(Data).filter(Data.email == email).count() == 0:
+
             data = Data(email, age)
             db.session.add(data)
             db.session.commit()
+
+            age_count = db.session.query(Data.age).count()
+            average_age = round(db.session.query(func.avg(Data.age)).scalar(), 1)
+            send_email(email, age, age_count, average_age)
+
             return render_template("success.html")
 
     return render_template("index.html", text = "Sorry, that Email Address was Used Already!")
