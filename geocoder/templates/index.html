@@ -1,0 +1,27 @@
+<!-- Frontend -->
+
+<!-- User Submission Webpage -->
+
+
+
+<!DOCTYPE html>
+<html lang = "en">
+    <title> Geocoder </title>
+    <head>
+        <link href = "../static/main.css" rel = "stylesheet">
+    </head>
+    <body>
+        <div class = "container">
+            <h1> Geocoder </h1>
+            <h3> Please Upload a CSV File that contains the Addresses to Geocode in a Column named <em> Address </em> or <em> address. </em> </h3>
+            <form action = "{{url_for('success_table')}}" method = "POST" enctype = "multipart/form-data">
+                <input type = "file" accept = ".csv" name = "file"/>
+                <button type = "submit"> Submit </button>
+            </form>
+            <div class = "output">
+                {{text | safe}}
+                {% include btn ignore missing %}
+            </div>
+        </div>
+    </body>
+</html>
