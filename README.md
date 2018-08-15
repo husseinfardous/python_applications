@@ -8,7 +8,7 @@ Each application has a "README.md" file that gives an overview of the applicatio
 
 # Purpose
 
-The purpose of these applications is to demonstrate my command of python, python modules (such as Flask, Sqlite3, Pandas, Pandas Datareader, BeautifulSoup4, Bokeh, and GeoPy), HTTP methods, databases such as PostgreSQL, data scraping/processing/analysis/visualization, the command line of a UNIX environment, git (clone this repository and run `git log` to see all my commits), documentation, and error handling.
+The purpose of these applications is to demonstrate my command of Python, Python modules (such as Flask, Sqlite3, Pandas, Pandas Datareader, BeautifulSoup4, Bokeh, and GeoPy), pulling data from APIs, HTTP methods, databases such as PostgreSQL, data scraping/processing/analysis/visualization, the command line of a UNIX environment, Git (clone this repository and run `git log` to see all my commits), documentation, and error handling.
 
 # Requirements
 
